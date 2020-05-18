@@ -1,8 +1,6 @@
 const fs = require('fs');
 const readline = require('readline');
 
-const fileStream = fs.createReadStream('./data/games.log');
-
 var Game = function (id){
     this.id=id;
     this.total_kills = 0; 
@@ -49,6 +47,8 @@ module.exports = {
 
     async getAllGames (index){
 
+        const fileStream = fs.createReadStream('./data/games.log');
+
         var gamesCounter = 0; 
         var result = [];
         var killRecord; 
@@ -72,12 +72,14 @@ module.exports = {
                 result[gamesCounter-1].setKills(killRecord.killed_by);
             }
         }
-        
+
+        rl.close();      
+
         if (index == null){
             return(result);
         }else{
             if (index > result.length){
-                return;
+                return([]);
             }else{
                 return(result[index]);
             }
